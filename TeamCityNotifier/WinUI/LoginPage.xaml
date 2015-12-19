@@ -1,0 +1,39 @@
+﻿<Page
+    x:Class="TeamCityNotifier.WinUI.LoginPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TeamCityNotifier.WinUI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+            <SymbolIcon Symbol="World"></SymbolIcon>
+            <TextBox PlaceholderText="TeamCity Url" Width="425" 
+                     Text="{Binding LoginModel.TeamCityUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        </StackPanel>
+        <TextBox Grid.Column="1" Grid.Row="2" PlaceholderText="Username"
+                 Text="{Binding LoginModel.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <PasswordBox Grid.Column="2" Grid.Row="2" PlaceholderText="Password"
+                     Password="{Binding LoginModel.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></PasswordBox>
+        <Button Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" Content="Login" Click="Login_OnClick"></Button>
+<!--        <StackPanel BorderThickness="1" BorderBrush="Black" Background="Aqua" >-->
+<!--            <TextBlock Text="Login Page"></TextBlock>-->
+<!--            <Button Content="Go to Project" Click="Project_OnClick"></Button>-->
+<!--        </StackPanel>-->
+    </Grid>
+</Page>
