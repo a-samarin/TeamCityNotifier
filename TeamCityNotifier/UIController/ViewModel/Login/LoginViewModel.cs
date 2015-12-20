@@ -16,5 +16,10 @@ namespace TeamCityNotifier.UIController.ViewModel.Login
         }
 
         public LoginModel LoginModel { get; }
+
+        public void Save()
+        {
+            LoginModel.Save();
+        }
     }
 }

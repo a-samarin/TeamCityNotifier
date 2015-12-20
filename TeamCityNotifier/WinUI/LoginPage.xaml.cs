@@ -33,6 +33,7 @@ namespace TeamCityNotifier.WinUI
 
         private void Login_OnClick(object sender, RoutedEventArgs e)
         {
+            ((LoginViewModel)DataContext).Save();
             this.Frame.Navigate(typeof(ProjectPage));
         }
     }

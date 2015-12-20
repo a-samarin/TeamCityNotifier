@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamCityNotifier.UIController.Base;
+using TeamCityNotifier.UIController.Helper;
 using TeamCityNotifier.UIController.ViewModel.Project.DataModel;
 
 namespace TeamCityNotifier.UIController.ViewModel.Project
@@ -22,7 +23,10 @@ namespace TeamCityNotifier.UIController.ViewModel.Project
 
         private void LoadProjects()
         {
-            
+            var projectList = NetworkHelper.GetList<DataContract.Project>(NetworkHelper.ProjectsUrl);
+
+
+            //ProjectModelList.Add();
         }
     }
 }

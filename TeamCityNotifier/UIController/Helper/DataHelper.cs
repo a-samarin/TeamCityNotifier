@@ -30,5 +30,33 @@ namespace TeamCityNotifier.UIController.Helper
 
             return login;
         }
+        
+        public static void SaveData<T>(T data)
+        {
+            ApplicationDataCompositeValue composite = new ApplicationDataCompositeValue();
+            //            localSettings.Values["teamCityUrl"] = login.TeamCityUrl;
+            //            localSettings.Values["username"] = login.Username;
+            //            localSettings.Values["password"] = login.Password;
+        }
+
+        public static T GetData<T>() where T : ObjectBase, new()
+        {
+            ApplicationDataCompositeValue composite =
+               (ApplicationDataCompositeValue)localSettings.Values["exampleCompositeSetting"];
+
+            if (composite == null) return default(T);
+
+            return new T();
+            //            var login = new Login
+            //            {
+            //                TeamCityUrl = localSettings.Values["teamCityUrl"] as string,
+            //                Username = localSettings.Values["username"] as string,
+            //                Password = localSettings.Values["password"] as string
+            //            };
+            //
+            //            return login;
+        }
+
+        
     }
 }

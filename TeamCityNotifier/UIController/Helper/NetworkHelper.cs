@@ -66,24 +66,41 @@ namespace TeamCityNotifier.UIController.Helper
 
         #region Public Methods
 
-        public static List<BuildType> GetBuildTypes(string url)
+//        public static List<BuildType> GetBuildTypes(string url)
+//        {
+//            try
+//            {
+//                var json = GetJson(url);
+//
+//                var models = JsonConvert.DeserializeObject<RootBuildType>(json);
+//
+//                return models.BuildType;
+//
+//            }
+//            catch (Exception ex)
+//            {
+//                throw ex;
+//            }
+//        }
+
+        public static T Get<T>(string url) where T : ObjectBase
         {
             try
             {
                 var json = GetJson(url);
 
-                var models = JsonConvert.DeserializeObject<RootBuildType>(json);
+                var model = JsonConvert.DeserializeObject<T>(json);
 
-                return models.BuildType;
+                return model;
 
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
-        public static List<T> GetBuildTypes<T>(string url)
+        public static List<T> GetList<T>(string url) where T: ObjectBase
         {
             try
             {

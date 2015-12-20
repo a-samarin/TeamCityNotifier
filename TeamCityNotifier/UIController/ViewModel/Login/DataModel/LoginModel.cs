@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
 using TeamCityNotifier.UIController.Base;
+using TeamCityNotifier.UIController.Helper;
 
 namespace TeamCityNotifier.UIController.ViewModel.Login.DataModel
 {
@@ -11,11 +13,7 @@ namespace TeamCityNotifier.UIController.ViewModel.Login.DataModel
     {
         public LoginModel()
         {
-            _DataContract = new DataContract.Login();
-
-            DataContract.TeamCityUrl = "TeamCityUrl 1";
-            DataContract.Username = "Username 1";
-            DataContract.Password = "Password 1";
+            _DataContract = DataHelper.GetLoginData();
         }
 
         public string TeamCityUrl
@@ -25,7 +23,9 @@ namespace TeamCityNotifier.UIController.ViewModel.Login.DataModel
             {
                 if (DataContract.TeamCityUrl == value) return;
 
-                DataContract.TeamCityUrl = value;
+                var url = value.TrimEnd('/');
+
+                DataContract.TeamCityUrl = url;
                 SendPropertyChanged(nameof(TeamCityUrl));
             }
         }
@@ -52,6 +52,11 @@ namespace TeamCityNotifier.UIController.ViewModel.Login.DataModel
                 DataContract.TeamCityUrl = value;
                 SendPropertyChanged(nameof(Password));
             }
+        }
+
+        public void Save()
+        {
+            DataHelper.SaveLoginData(DataContract);
         }
     }
 }
