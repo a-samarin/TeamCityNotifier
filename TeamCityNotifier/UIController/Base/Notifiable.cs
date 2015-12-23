@@ -7,8 +7,10 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.System.Threading;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
 using TeamCityNotifier.DataContract;
 using TeamCityNotifier.UIController.Annotations;
 
@@ -180,7 +182,8 @@ namespace TeamCityNotifier.UIController.Base
         /// <param name="dispatcherPriority"></param>
         public void QueueForUIThread(DispatchedHandler callback, CoreDispatcherPriority dispatcherPriority)
         {
-            if (CoreWindow.GetForCurrentThread().Dispatcher == DispatcherProvider.GetForUI())
+            //CoreApplication.MainView.CoreWindow.Dispatcher
+            if (Window.Current?.Dispatcher == DispatcherProvider.GetForUI())
             {
                 callback();
             }
@@ -293,7 +296,7 @@ namespace TeamCityNotifier.UIController.Base
         [Conditional("DEBUG")]
         protected void VerifyCalledOnUIThread()
         {
-            Debug.Assert(CoreWindow.GetForCurrentThread().Dispatcher == DispatcherProvider.GetForUI(), "Call must be made on UI thread.");
+            Debug.Assert(Window.Current?.Dispatcher == DispatcherProvider.GetForUI(), "Call must be made on UI thread.");
         }
 
         #endregion //Protected Methods

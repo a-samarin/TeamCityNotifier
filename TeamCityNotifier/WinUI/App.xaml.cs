@@ -8,6 +8,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -56,10 +57,6 @@ namespace TeamCityNotifier.WinUI
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            //            var dis = CoreApplication.GetCurrentView().CoreWindow.Dispatcher;
-            //            var dis = CoreApplication.MainView.CoreWindow.Dispatcher;
-            //            var dis = CoreWindow.GetForCurrentThread().Dispatcher;
-
             //set UI dispatcher
             DispatcherProvider.SetForUI();
 
@@ -99,7 +96,6 @@ namespace TeamCityNotifier.WinUI
             }
             // Ensure the current window is active
             Window.Current.Activate();
-
         }
 
         /// <summary>

@@ -13,7 +13,8 @@ namespace TeamCityNotifier.UIController.ViewModel.Login.DataModel
     {
         public LoginModel()
         {
-            _DataContract = DataHelper.GetLoginData();
+            //_DataContract = DataHelper.GetLoginData();
+            _DataContract = DataHelper.GetData<DataContract.Login>() ?? new DataContract.Login();
         }
 
         public string TeamCityUrl
@@ -49,14 +50,15 @@ namespace TeamCityNotifier.UIController.ViewModel.Login.DataModel
             {
                 if (DataContract.Password == value) return;
 
-                DataContract.TeamCityUrl = value;
+                DataContract.Password = value;
                 SendPropertyChanged(nameof(Password));
             }
         }
 
         public void Save()
         {
-            DataHelper.SaveLoginData(DataContract);
+            DataHelper.SaveData(DataContract);
+            //DataHelper.SaveLoginData(DataContract);
         }
     }
 }

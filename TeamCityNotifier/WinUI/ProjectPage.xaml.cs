@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using TeamCityNotifier.UIController.ViewModel.Project;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -25,7 +26,12 @@ namespace TeamCityNotifier.WinUI
         public ProjectPage()
         {
             this.InitializeComponent();
+            DataContext = new ProjectViewModel();
         }
 
+        private void MyRectangle_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            NewStory.Begin();
+        }
     }
 }

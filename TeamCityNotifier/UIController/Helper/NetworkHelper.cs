@@ -27,6 +27,9 @@ namespace TeamCityNotifier.UIController.Helper
         private const string RunningBuildsResourceUrl = "/httpAuth/app/rest/builds?locator=running:true,branch:(default:any)";
         private const string BuildQueueResourceUrl = "/httpAuth/app/rest/buildQueue";
 
+        // build types for Yangler project "/httpAuth/app/rest/buildTypes?locator=project:Yangler"
+        // full Yangler project "/httpAuth/app/rest/projects/id:Yangler"
+        // running builds for Yangler project "/httpAuth/app/rest/builds?locator=running:true,branch:(default:any),project:Yangler"
         #endregion //Private Const
 
         #region Public Properties
@@ -59,7 +62,7 @@ namespace TeamCityNotifier.UIController.Helper
 
         static NetworkHelper()
         {
-            Login = DataHelper.GetLoginData();
+            Login = DataHelper.GetData<Login>();
         }
 
         #endregion //Constructors

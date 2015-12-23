@@ -8,8 +8,66 @@
     xmlns:controls="using:TeamCityNotifier.WinUI.Controls"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <Storyboard x:Name="NewStory">
+            <DoubleAnimation Storyboard.TargetName="MyRectangle"  Storyboard.TargetProperty="Width" From="100" To="0" Duration="0:0:1" EnableDependentAnimation="true" />
+        </Storyboard>
+    </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <controls:ProjectListControl />
+        <!--<controls:ProjectListControl />-->
+        <ItemsControl ItemsSource="{Binding ProjectModels}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                        <ItemsControl ItemsSource="{Binding BuildTypeModels}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <ProgressBar Height="25" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"  IsIndeterminate="False" 
+                                                     Value="{Binding ProgressValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ProgressBar>
+                                        <!--<Rectangle Name="MyRectangle" Width="500" Height="25" Fill="Beige" >
+                                            <Rectangle.Triggers>
+                                                <EventTrigger RoutedEvent="Rectangle.LoadedEvent">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation From="500"
+                                                                 To="100"
+                                                                 Duration="0:0:1"
+                                                                 Storyboard.TargetProperty="Width">
+                                                            </DoubleAnimation>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                            </Rectangle.Triggers>
+                                        </Rectangle>-->
+                                        <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
         
+    <!--<StackPanel>
+        <Button x:Name="cmdVibrate" HorizontalAlignment="Center">
+            <Button.Triggers>
+                <EventTrigger RoutedEvent="Button.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard >
+                            <DoubleAnimation From="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=ActualWidth}"
+                                         By="200"
+                                         AutoReverse="True"
+                                         Duration="0:0:1"
+                                         Storyboard.TargetProperty="Width"></DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Button.Triggers>
+            Mouse over me to shake
+        </Button>
+    </StackPanel>-->
     </Grid>
 </Page>

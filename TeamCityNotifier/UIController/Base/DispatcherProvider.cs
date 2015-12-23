@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
 
 namespace TeamCityNotifier.UIController.Base
 {
@@ -45,6 +46,12 @@ namespace TeamCityNotifier.UIController.Base
         public static void SetForUI()
         {
             _UIDispatcherHolder.UIDispatcher = CoreApplication.MainView.CoreWindow.Dispatcher;
+            //Window.Current.Dispatcher;
+            //CoreApplication.MainView.CoreWindow.Dispatcher;
+
+            //            var dis = CoreApplication.GetCurrentView().CoreWindow.Dispatcher;
+            //            var dis = CoreApplication.MainView.CoreWindow.Dispatcher;
+            //            var dis = CoreWindow.GetForCurrentThread().Dispatcher;
         }
     }
 }
