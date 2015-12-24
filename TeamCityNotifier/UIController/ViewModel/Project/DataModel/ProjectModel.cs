@@ -31,5 +31,10 @@ namespace TeamCityNotifier.UIController.ViewModel.Project.DataModel
             //var buildTypeList = NetworkHelper.GetList<BuildType>(NetworkHelper.BuildTypesUrl);
             buildTypes.ForEach(bt => BuildTypeModels.Add(new BuildTypeModel(bt)));
         }
+
+        public void UpdateBuildTypeModels(List<Build> builds)
+        {
+            BuildTypeModels.ToList().ForEach(bt => bt.Update(builds?.FirstOrDefault(b => b.BuildTypeId == bt.DataContract.Id)));
+        }
     }
 }

@@ -5,4 +5,18 @@
     xmlns:local="using:TeamCityNotifier.WinUI"
     RequestedTheme="Light">
 
+    <Application.Resources>
+
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+
+                <ResourceDictionary Source="Resources\Styles\Colors.xaml"/>
+                <ResourceDictionary Source="Resources\Styles\Brushes.xaml"/>
+                <ResourceDictionary Source="Resources\Styles\Controls.xaml"/>
+
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>

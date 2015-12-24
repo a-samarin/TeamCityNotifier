@@ -1,0 +1,14 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TeamCityNotifier.WinUI.Resources.Styles">
+    
+    <Color x:Key="SuccessLightGreenColor">#F2FFEE</Color>
+    <Color x:Key="SuccessDarkGreenColor">#A5DDAD</Color>
+    <Color x:Key="FailedLightRedColor">#FFF6FF</Color>
+    <Color x:Key="FailedDarkRedColor">#FDA8A8</Color>
+
+    <!-- RedErrorBackgroundColor #FFC5C4-->
+    <!-- RedErrorTextColor #C00-->
+
+</ResourceDictionary>

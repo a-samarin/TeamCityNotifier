@@ -17,7 +17,7 @@ using TeamCityNotifier.DataContract;
 
 namespace TeamCityNotifier.UIController.Helper
 {
-    public static class NetworkHelper
+    internal static class NetworkHelper
     {
         #region Private Const
 
@@ -32,31 +32,31 @@ namespace TeamCityNotifier.UIController.Helper
         // running builds for Yangler project "/httpAuth/app/rest/builds?locator=running:true,branch:(default:any),project:Yangler"
         #endregion //Private Const
 
-        #region Public Properties
+        #region internal Properties
 
-        public static Login Login { get; set; }
+        internal static Login Login { get; set; }
 
-        public static string TeamCityUrl => Login.TeamCityUrl;
+        internal static string TeamCityUrl => Login.TeamCityUrl;
 
-        public static string Username => Login.Username;
+        internal static string Username => Login.Username;
 
-        public static string Password => Login.Password;
+        internal static string Password => Login.Password;
 
-        public static bool IsLoggedIn => !string.IsNullOrEmpty(TeamCityUrl)
+        internal static bool IsLoggedIn => !string.IsNullOrEmpty(TeamCityUrl)
                                          && !string.IsNullOrEmpty(Username)
                                          && !string.IsNullOrEmpty(Password);
 
-        public static string ProjectsUrl => TeamCityUrl + ProjectResourceUrl;
+        internal static string ProjectsUrl => TeamCityUrl + ProjectResourceUrl;
 
-        public static string BuildTypesUrl => TeamCityUrl + BuildTypesResourceUrl;
+        internal static string BuildTypesUrl => TeamCityUrl + BuildTypesResourceUrl;
 
-        public static string RunningBuildsUrl => TeamCityUrl + BuildStatusResourceUrl;
+        internal static string RunningBuildsUrl => TeamCityUrl + RunningBuildsResourceUrl;
 
-        public static string BuildStatusUrl => TeamCityUrl + RunningBuildsResourceUrl;
+        internal static string BuildStatusUrl => TeamCityUrl + BuildStatusResourceUrl;
 
-        public static string BuildQueueUrl => TeamCityUrl + BuildQueueResourceUrl;
+        internal static string BuildQueueUrl => TeamCityUrl + BuildQueueResourceUrl;
 
-        #endregion //Public Properties
+        #endregion //internal Properties
 
         #region Constructors
 
@@ -67,9 +67,9 @@ namespace TeamCityNotifier.UIController.Helper
 
         #endregion //Constructors
 
-        #region Public Methods
+        #region internal Methods
 
-//        public static List<BuildType> GetBuildTypes(string url)
+//        internal static List<BuildType> GetBuildTypes(string url)
 //        {
 //            try
 //            {
@@ -86,7 +86,7 @@ namespace TeamCityNotifier.UIController.Helper
 //            }
 //        }
 
-        public static T Get<T>(string url) where T : ObjectBase
+        internal static T Get<T>(string url) where T : ObjectBase
         {
             try
             {
@@ -103,15 +103,19 @@ namespace TeamCityNotifier.UIController.Helper
             }
         }
 
-        public static List<T> GetList<T>(string url) where T: ObjectBase
+        internal static List<T> GetList<T>(string url) where T: ObjectBase
         {
             try
             {
-                
                 var json = GetJson(url);
 
                 JObject jo = JObject.Parse(json);
-                var models = jo.SelectToken(FirstCharacterToLower(typeof(T).Name), false).ToObject<List<T>>();
+
+                var typeName = FirstCharacterToLower(typeof (T).Name);
+
+                if (jo[typeName] == null) return null;
+
+                var models = jo.SelectToken(typeName, false).ToObject<List<T>>();
 
                 return models;
 
@@ -122,7 +126,7 @@ namespace TeamCityNotifier.UIController.Helper
             }
         }
 
-        public static List<T> GetJson<T>(string url) where T : ObjectBase
+        internal static List<T> GetJson<T>(string url) where T : ObjectBase
         {
             try
             {
@@ -139,7 +143,7 @@ namespace TeamCityNotifier.UIController.Helper
             }
         }
 
-        public static string GetJson(string url)
+        internal static string GetJson(string url)
         {
             try
             {
@@ -202,7 +206,7 @@ namespace TeamCityNotifier.UIController.Helper
             }
         }
 
-        public static string FirstCharacterToLower(string str)
+        internal static string FirstCharacterToLower(string str)
         {
             if (String.IsNullOrEmpty(str) || Char.IsLower(str, 0))
                 return str;
@@ -210,6 +214,6 @@ namespace TeamCityNotifier.UIController.Helper
             return Char.ToLowerInvariant(str[0]) + str.Substring(1);
         }
 
-        #endregion //Public Methods
+        #endregion //internal Methods
     }
 }

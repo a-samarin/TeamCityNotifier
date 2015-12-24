@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TeamCityNotifier.DataContract;
 using TeamCityNotifier.UIController.Base;
@@ -13,9 +14,13 @@ namespace TeamCityNotifier.UIController.ViewModel.Project
 {
     public class ProjectViewModel : Notifiable
     {
+        private Timer timer;
+
         public ProjectViewModel()
         {
             LoadProjects();
+
+            timer = new Timer(UpdateBuilds, null, 0, 20000);
         }
 
         public ObservableCollection<ProjectModel> ProjectModels { get; } = new ObservableCollection<ProjectModel>();
@@ -32,6 +37,17 @@ namespace TeamCityNotifier.UIController.ViewModel.Project
             {
                 var btList = buildTypeList.Where(bt => bt.ProjectId == pm.DataContract.Id).ToList();
                 pm.LoadBuildTypeModels(btList);
+            }
+        }
+
+        private void UpdateBuilds(object state)
+        {
+            var runningBuilds = NetworkHelper.GetList<Build>(NetworkHelper.RunningBuildsUrl);
+
+            foreach (var pm in ProjectModels)
+            {
+                var runningList = runningBuilds?.Where(r => pm.BuildTypeModels.Any(bt => bt.DataContract.Id == r.BuildTypeId)).ToList();
+                pm.UpdateBuildTypeModels(runningList);
             }
         }
     }
