@@ -31,7 +31,7 @@ namespace TeamCityNotifier.WinUI
 
         private void MyRectangle_OnTapped(object sender, TappedRoutedEventArgs e)
         {
-            NewStory.Begin();
+            //NewStory.Begin();
         }
     }
 }

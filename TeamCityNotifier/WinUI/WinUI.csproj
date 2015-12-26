@@ -104,6 +104,8 @@
     <Compile Include="Controls\ProjectListControl.xaml.cs">
       <DependentUpon>ProjectListControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\BuildStatusToBrushConverter.cs" />
     <Compile Include="LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
@@ -155,6 +157,11 @@
     <Page Include="ProjectPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Resources\Styles\Brushes.xaml">
       <SubType>Designer</SubType>

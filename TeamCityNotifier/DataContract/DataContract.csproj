@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuildStatus.cs" />
+    <Compile Include="BuildTypeStatus.cs" />
     <Compile Include="BuildType.cs" />
     <Compile Include="Login.cs" />
     <Compile Include="ObjectBase.cs" />

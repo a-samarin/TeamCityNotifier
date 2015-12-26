@@ -19,42 +19,46 @@
             <ItemsControl ItemsSource="{Binding ProjectModels}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
-                            <TextBlock Text="{Binding Path=Name}"></TextBlock>
-                            <ItemsControl ItemsSource="{Binding BuildTypeModels}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition></ColumnDefinition>
-                                                <ColumnDefinition></ColumnDefinition>
-                                                <ColumnDefinition></ColumnDefinition>
-                                            </Grid.ColumnDefinitions>
-                                            <ProgressBar Height="25" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"  IsIndeterminate="False" 
-                                                         Value="{Binding ProgressValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ProgressBar>
-                                            <!--<Rectangle Name="MyRectangle" Width="500" Height="25" Fill="Beige" >
-                                                <Rectangle.Triggers>
-                                                    <EventTrigger RoutedEvent="Rectangle.LoadedEvent">
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <DoubleAnimation From="500"
-                                                                     To="100"
-                                                                     Duration="0:0:1"
-                                                                     Storyboard.TargetProperty="Width">
-                                                                </DoubleAnimation>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </EventTrigger>
-                                                </Rectangle.Triggers>
-                                            </Rectangle>-->
-                                            <TextBlock Grid.Column="0" Style="{StaticResource BodyTextBlockStyle}" Text="{Binding Path=Name}"></TextBlock>
-                                            <TextBlock Grid.Column="1" Style="{StaticResource BodyTextBlockStyle}" Text="{Binding Path=Description}"></TextBlock>
-                                            <TextBlock Grid.Column="2" Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding Path=Name}"></TextBlock>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
+                        <Grid Margin="0,0,0,5">
+                            <Rectangle Fill="Azure"></Rectangle>
+                            <StackPanel>
+                                <TextBlock  Style="{StaticResource BodyTextBlockStyle}" Text="{Binding Path=Name}"></TextBlock>
+                                <ItemsControl ItemsSource="{Binding BuildTypeModels}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="200"></ColumnDefinition>
+                                                    <ColumnDefinition Width="200"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <ProgressBar Height="25" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"  IsIndeterminate="False" 
+                                                             Value="{Binding ProgressValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                             Minimum="0" Maximum="100" Background="Transparent"></ProgressBar>
+                                                <!--<Rectangle Name="MyRectangle" Width="500" Height="25" Fill="Beige" >
+                                                    <Rectangle.Triggers>
+                                                        <EventTrigger RoutedEvent="Rectangle.LoadedEvent">
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation From="500"
+                                                                         To="100"
+                                                                         Duration="0:0:1"
+                                                                         Storyboard.TargetProperty="Width">
+                                                                    </DoubleAnimation>
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </EventTrigger>
+                                                    </Rectangle.Triggers>
+                                                </Rectangle>-->
+                                                <TextBlock Grid.Column="0" Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding Path=Name}"></TextBlock>
+                                                <TextBlock Grid.Column="1" Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding Path=Description}"></TextBlock>
+                                                <TextBlock Grid.Column="2" Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding Path=Name}"></TextBlock>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

@@ -106,9 +106,13 @@ namespace TeamCityNotifier.UIController.ViewModel.Project.DataModel
             }
         }
 
+        //changes by whom and how much
+        //status text
+        // tooltip : build is running + build agent : Yosh
+
         private void LoadBuildInfo()
         {
-            var info = NetworkHelper.Get<Build>(string.Format(NetworkHelper.BuildStatusUrl, DataContract.Id));
+            var info = NetworkHelper.Get<BuildTypeStatus>(string.Format(NetworkHelper.BuildStatusUrl, DataContract.Id));
         }
 
         public void Update(Build build)
