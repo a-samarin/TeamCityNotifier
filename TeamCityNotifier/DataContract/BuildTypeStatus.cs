@@ -64,6 +64,7 @@ namespace TeamCityNotifier.DataContract
 
     public class Changes
     {
+        public int Count { get; set; }
         public string Href { get; set; }
     }
 

@@ -22,6 +22,7 @@ namespace TeamCityNotifier.UIController.ViewModel.Project.DataModel
         private string _state;
         private bool _isRunning;
         private int _progressValue;
+        private double _progressMaxValue;
         private BuildTypeStatus _buildTypeStatus;
         private readonly Timer _timer;
 
@@ -109,10 +110,11 @@ namespace TeamCityNotifier.UIController.ViewModel.Project.DataModel
             }
         }
 
-        public bool IsChanged => false/*_buildTypeStatus?.LastChanges.Count > 0*/;
+        public double ProgressMaxValue => _progressMaxValue;
+
+        public bool IsChanged => _buildTypeStatus?.Changes.Count > 0;
 
         public string ChangesText =>  "Unknown"/*$"{_buildTypeStatus?.Triggered.User.Name} ({_buildTypeStatus?.LastChanges.Count})"*/;
-
 
         //changes by whom and how much
         //status text
@@ -121,6 +123,13 @@ namespace TeamCityNotifier.UIController.ViewModel.Project.DataModel
         private void LoadBuildInfo()
         {
             _buildTypeStatus = NetworkHelper.Get<BuildTypeStatus>(string.Format(NetworkHelper.BuildStatusUrl, DataContract.Id));
+            var startTime = DateTimeOffset.ParseExact(_buildTypeStatus.StartDate, "yyyyMMdd'T'HHmmsszzz", CultureInfo.InvariantCulture);
+            var endTime = DateTimeOffset.ParseExact(_buildTypeStatus.StartDate, "yyyyMMdd'T'HHmmsszzz", CultureInfo.InvariantCulture);
+
+            var time = endTime - startTime;
+
+            _progressMaxValue = time.TotalSeconds;
+
             UpdateUiProperties();
         }
 
@@ -131,6 +140,7 @@ namespace TeamCityNotifier.UIController.ViewModel.Project.DataModel
             SendPropertyChanged(nameof(IsRunning));
             SendPropertyChanged(nameof(IsChanged));
             SendPropertyChanged(nameof(ChangesText));
+            SendPropertyChanged(nameof(ProgressMaxValue));
         }
 
         protected string GetLastRunText()
