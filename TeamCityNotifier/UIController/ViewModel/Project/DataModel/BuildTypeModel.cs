@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -16,11 +17,13 @@ namespace TeamCityNotifier.UIController.ViewModel.Project.DataModel
 {
     public class BuildTypeModel : Notifiable<BuildType>
     {
-        private string buildNumber;
-        private string status;
-        private string state;
-        private int progressValue;
-        private Timer timer;
+        private string _buildNumber;
+        private string _status;
+        private string _state;
+        private bool _isRunning;
+        private int _progressValue;
+        private BuildTypeStatus _buildTypeStatus;
+        private readonly Timer _timer;
 
         public BuildTypeModel(BuildType buildType)
         {
@@ -37,8 +40,6 @@ namespace TeamCityNotifier.UIController.ViewModel.Project.DataModel
             LoadBuildInfo();
         }
 
-        private int count = 0; 
-
         private void Callback(object state)
         {
             if (ProgressValue < 100)
@@ -50,7 +51,7 @@ namespace TeamCityNotifier.UIController.ViewModel.Project.DataModel
             }
             else
             {
-                timer.Change(Timeout.Infinite, Timeout.Infinite);
+                _timer.Change(Timeout.Infinite, Timeout.Infinite);
             }
         }
 
@@ -58,53 +59,60 @@ namespace TeamCityNotifier.UIController.ViewModel.Project.DataModel
         public string Description => DataContract.Description;
         public string WebUrl => DataContract.WebUrl;
 
-        public string BuildNumber
-        {
-            get { return buildNumber; }
-            set
-            {
-                if (buildNumber == value) return;
-
-                buildNumber = value;
-                SendPropertyChanged(nameof(BuildNumber));
-            }
-        }
+        public string BuildNumber => $"#{_buildTypeStatus?.Number}";
 
         public string Status
         {
-            get { return status; }
+            get { return _status; }
             set
             {
-                if (status == value) return;
+                if (_status == value) return;
 
-                status = value;
+                _status = value;
                 SendPropertyChanged(nameof(Status));
             }
         }
 
         public string State
         {
-            get { return state; }
+            get { return _state; }
             set
             {
-                if (state == value) return;
+                if (_state == value) return;
 
-                state = value;
+                _state = value;
                 SendPropertyChanged(nameof(State));
+            }
+        }
+
+        public bool IsRunning
+        {
+            get { return _isRunning; }
+            set
+            {
+                if (value == _isRunning) return;
+
+                _isRunning = value;
+                SendPropertyChanged(nameof(IsRunning));
             }
         }
 
         public int ProgressValue
         {
-            get { return progressValue; }
+            get { return _progressValue; }
             set
             {
-                if (progressValue == value) return;
+                if (_progressValue == value) return;
 
-                progressValue = value;
-                QueueForUIThread(() => SendPropertyChanged(nameof(ProgressValue)));
+                _progressValue = value;
+                SendPropertyChanged(nameof(ProgressValue));
             }
         }
+
+        public bool IsChanged => false/*_buildTypeStatus?.LastChanges.Count > 0*/;
+
+        public string ChangesText =>  "Unknown"/*$"{_buildTypeStatus?.Triggered.User.Name} ({_buildTypeStatus?.LastChanges.Count})"*/;
+
 
         //changes by whom and how much
         //status text
@@ -112,7 +120,78 @@ namespace TeamCityNotifier.UIController.ViewModel.Project.DataModel
 
         private void LoadBuildInfo()
         {
-            var info = NetworkHelper.Get<BuildTypeStatus>(string.Format(NetworkHelper.BuildStatusUrl, DataContract.Id));
+            _buildTypeStatus = NetworkHelper.Get<BuildTypeStatus>(string.Format(NetworkHelper.BuildStatusUrl, DataContract.Id));
+            UpdateUiProperties();
+        }
+
+        private void UpdateUiProperties()
+        {
+            SendPropertyChanged(nameof(BuildNumber));
+            SendPropertyChanged(nameof(Status));
+            SendPropertyChanged(nameof(IsRunning));
+            SendPropertyChanged(nameof(IsChanged));
+            SendPropertyChanged(nameof(ChangesText));
+        }
+
+        protected string GetLastRunText()
+        {
+            const int second = 1;
+            const int minute = 60 * second;
+            const int hour = 60 * minute;
+            const int day = 24 * hour;
+            const int month = 30 * day;
+
+            try
+            {
+                var dateTime = DateTimeOffset.ParseExact(_buildTypeStatus.StartDate, "yyyyMMdd'T'HHmmsszzz", CultureInfo.InvariantCulture);
+
+                var timeSpan = new TimeSpan(DateTime.Now.Ticks - dateTime.Ticks);
+                double delta = Math.Abs(timeSpan.TotalSeconds);
+
+                if (delta < 1 * minute)
+                {
+                    return timeSpan.Seconds == 1 ? "one second ago" : timeSpan.Seconds + " seconds ago";
+                }
+                if (delta < 2 * minute)
+                {
+                    return "a minute ago";
+                }
+                if (delta < 45 * minute)
+                {
+                    return timeSpan.Minutes + " minutes ago";
+                }
+                if (delta < 90 * minute)
+                {
+                    return "an hour ago";
+                }
+                if (delta < 24 * hour)
+                {
+                    return timeSpan.Hours + " hours ago";
+                }
+                if (delta < 48 * hour)
+                {
+                    return "yesterday";
+                }
+                if (delta < 30 * day)
+                {
+                    return timeSpan.Days + " days ago";
+                }
+
+                if (delta < 12 * month)
+                {
+                    int months = Convert.ToInt32(Math.Floor((double)timeSpan.Days / 30));
+                    return months <= 1 ? "one month ago" : months + " months ago";
+                }
+                else
+                {
+                    int years = Convert.ToInt32(Math.Floor((double)timeSpan.Days / 365));
+                    return years <= 1 ? "one year ago" : years + " years ago";
+                }
+            }
+            catch
+            {
+                return string.Empty;
+            }
         }
 
         public void Update(Build build)
@@ -121,7 +200,7 @@ namespace TeamCityNotifier.UIController.ViewModel.Project.DataModel
             {
 
             }
-            else
+            else if(IsRunning)
             {
                 
             }

@@ -14,7 +14,7 @@
                 <ResourceDictionary Source="Resources\Converters.xaml"/>
                 <ResourceDictionary Source="Resources\Styles\Colors.xaml"/>
                 <ResourceDictionary Source="Resources\Styles\Brushes.xaml"/>
-                <ResourceDictionary Source="Resources\Styles\Controls.xaml"/>
+                <!--<ResourceDictionary Source="Resources\Styles\Controls.xaml"/>-->
 
             </ResourceDictionary.MergedDictionaries>
 
